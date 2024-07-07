@@ -1,5 +1,7 @@
 import { RegisterFormData } from "./pages/Register"; // Importing the type definition for the registration form data
 import { SignInFormData } from "./pages/Signin"; // Importing the type definition for the sign-in form data
+import { HotelType } from './type';
+
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || ""; // In Vite, this is how we read environment variables from .env file
 
@@ -85,3 +87,17 @@ export const addMyHotel = async (hotelFormData:FormData)=>{
 
     return response.json();
 };
+
+export const fetchMyHotels = async (): Promise<HotelType[]> => {
+    const response = await fetch(`${API_BASE_URL}/api/my-hotels`, {
+        credentials: "include",
+    });
+
+    if (!response.ok) {
+        throw new Error(`Error Fetching hotels: ${response.statusText}`);
+    }
+
+    const data: HotelType[] = await response.json();
+
+    return data;
+}
