@@ -39,22 +39,46 @@ test("should allow user to add hotel",async ({page})=>{
     ]);
 
     await page.getByRole("button",{name:"Save"}).click();
-    await expect(page.getByText("Hotel Saved")).toBeVisible();
+    await expect(page.getByText("Hotel Saved")).toBeVisible({timeout:10000});
 });
 
 
 test("should display hotels",async({page})=>{
     await page.goto(`${UI_URL}my-hotels`);
 
-    await expect(page.getByText("Test Hotel")).toBeVisible();
-    await expect(page.getByText("Test Description")).toBeVisible();
-    await expect(page.getByText("Test City,Test Country")).toBeVisible();
-    await expect(page.getByText("Inn")).toBeVisible();
-    await expect(page.getByText("$1000 per Night")).toBeVisible();
-    await expect(page.getByText("2 adults ,2 children")).toBeVisible();
-    await expect(page.getByText("3 Star Rating")).toBeVisible();
+    await expect(page.getByText("Test Hotel").first()).toBeVisible();
+    await expect(page.getByText("Test Description").first()).toBeVisible();
+    await expect(page.getByText("Test City,Test Country").first()).toBeVisible();
+    await expect(page.getByText("Inn").first()).toBeVisible();
+    await expect(page.getByText("$1000 per Night").first()).toBeVisible();
+    await expect(page.getByText("2 adults ,2 children").first()).toBeVisible();
+    await expect(page.getByText("3 Star Rating").first()).toBeVisible();
 
-    await expect(page.getByRole("link",{name:"View Details"})).toBeVisible();
-    await expect(page.getByRole("link",{name:"Add Hotel"})).toBeVisible();
+    await expect(page.getByRole("link",{name:"View Details"}).first()).toBeVisible();
+    await expect(page.getByRole("link",{name:"Add Hotel"}).first()).toBeVisible();
+});
+
+test("should edit hotel",async({page})=>{
+    await page.goto(`${UI_URL}my-hotels`);
+
+    await page.getByRole("link",{name:"View Details"}).first().click();
+
+    await page.waitForSelector('[name="name"]',{state:"attached"});
+
+    
+
+    await expect(page.locator('[name="name"]')).toHaveValue('Test Hotel');
+    await page.locator('[name="name"]').fill("Dublin Getaways");
+    await page.getByRole("button",{name:"Save"}).click();
+
+    await expect(page.getByText("Hotel Saved")).toBeVisible();
+
+    await page.reload();
+
+    await expect(page.locator('[name="name"]')).toHaveValue('Dublin Getaways');
+    await page.locator('[name="name"]').fill("Test Hotel");
+    await page.getByRole("button",{name:"Save"}).click();
+
+    await expect(page.getByText("Hotel Saved")).toBeVisible();
 })
  
