@@ -2,6 +2,9 @@ import React, { useContext, useState } from 'react';
 import Toast from '../components/Toast';
 import { useQuery } from 'react-query';
 import * as apiClient from '../api-client';
+import { loadStripe,Stripe } from '@stripe/stripe-js';
+
+const STRIPE_PUB_KEY = import.meta.env.VITE_STRIPE_PUB_KEY || "";
 
 // Define the type for a toast message
 type ToastMessage = {
@@ -13,10 +16,13 @@ type ToastMessage = {
 type AppContext = {
     showToast: (toastMessage: ToastMessage) => void; // Function to show a toast message
     isLoggedIn:boolean;
+    stripePromise: Promise<Stripe | null>;
 };
 
 // Create the context with an initial value of undefined
 const AppContext = React.createContext<AppContext | undefined>(undefined);
+
+const stripePromise = loadStripe(STRIPE_PUB_KEY);
 
 // Create the context provider component
 export const AppContextProvider = ({
@@ -35,7 +41,8 @@ export const AppContextProvider = ({
             { showToast: (toastMessage) => {
                 setToast(toastMessage);
             },
-            isLoggedIn: !isError
+            isLoggedIn: !isError,
+            stripePromise
         } // Provide a default showToast function that does nothing
         }>
             {toast &&<Toast 
