@@ -231,3 +231,13 @@ export const createPaymentIntent = async (
     }
     
   };
+
+  export const fetchMyBookings = async():Promise<HotelType[]>=>{
+    const response = await fetch(`${API_BASE_URL}/api/my-bookings`,{
+        credentials:"include",
+    });
+    if(!response.ok){
+        throw new Error("unable to fetch booking");
+    }
+    return response.json();
+  };
