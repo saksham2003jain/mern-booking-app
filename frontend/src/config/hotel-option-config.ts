@@ -37,3 +37,4 @@ export const hotelTypes = [
         "Jacuzzi",
         "Private Balcony",
      ]
+     
