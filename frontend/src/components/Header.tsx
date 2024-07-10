@@ -7,10 +7,10 @@ const Header = () => {
     const { isLoggedIn } = useAppContext();
 
     return (
-        <div className="bg-blue-800 py-6">
+        <div className="bg-stone-500 py-6">
             <div className="container mx-auto flex justify-between">
                 <span className="text-3xl text-white font-bold tracking-tight">
-                    <Link to="/">MernHolidays.com</Link> {/* Link to the home page */}
+                    <Link to="/">MernHolidays</Link> {/* Link to the home page */}
                 </span>
                 <span className="flex space-x-2">
                     {isLoggedIn ? 
@@ -26,7 +26,7 @@ const Header = () => {
                      : (
                         <Link
                             to="/sign-in"
-                            className="flex bg-white items-center text-blue-600 px-3 font-bold hover:bg-grey-100" // Fixed the typo here
+                            className="flex bg-white items-center text-stone-600 px-3 font-bold hover:bg-grey-100" // Fixed the typo here
                         >
                             Sign In
                         </Link>
